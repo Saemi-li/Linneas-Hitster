@@ -1,146 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Hitster Disco Scanner</title>
-<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script> <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Arial Black', sans-serif;
-      background: radial-gradient(circle at center, #0f0f0f, #000000);
-      color: #fff;
-      text-align: center;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* Disco background animation */
-    @keyframes discoLights {
-      0% {background-position: 0 0;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0 100%;}
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: repeating-linear-gradient(
-        45deg,
-        #ff00ff,
-        #ff00ff 20px,
-        #00ffff 20px,
-        #00ffff 40px
-      );
-      opacity: 0.05;
-      z-index: 0;
-      animation: discoLights 10s linear infinite;
-    }
-
-    h1 {
-      margin-top: 20px;
-      font-size: 32px;
-      color: #ff00ff;
-      text-shadow:
-        0 0 5px #ff00ff,
-        0 0 10px #ff00ff,
-        0 0 20px #ff00ff,
-        0 0 40px #ff00ff;
-    }
-
-    #personalImage {
-      width: 120px;
-      height: 120px;
-      border-radius: 60px;
-      margin: 10px auto;
-      box-shadow: 0 0 20px #00ffff;
-    }
-
-    #reader {
-      width: 300px;
-      margin: 20px auto;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 0 30px #ff00ff;
-      z-index: 1;
-      position: relative;
-    }
-
-    #controls {
-      margin-top: 20px;
-      z-index: 1;
-      position: relative;
-    }
-
-    button {
-      background-color: #ff00ff;
-      border: none;
-      padding: 15px 30px;
-      font-size: 20px;
-      border-radius: 30px;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-      display: none;
-      box-shadow: 0 0 20px #ff00ff;
-    }
-
-    button:hover {
-      background-color: #00ffff;
-      box-shadow: 0 0 40px #00ffff;
-      transform: scale(1.1);
-    }
-
-    .footer {
-      position: fixed;
-      bottom: 10px;
-      width: 100%;
-      font-size: 12px;
-      opacity: 0.7;
-      color: #ff00ff;
-      text-shadow: 0 0 10px #ff00ff;
-    }
-  </style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 </head>
 
 <body>
 
-<!-- Personal image -->
-<img id="personalImage" src="your_image.jpg" alt="Personal Image">
+<h1>QR Test</h1>
 
-<h1>🎵 HITSTER DISCO 🎵</h1>
-
-<div id="reader"></div>
-
-<div id="controls">
-  <button id="playButton">▶ Play Song</button>
-</div>
-
-<div class="footer">
-  Scan a card to start the music
-</div>
+<div id="reader" style="width:300px"></div>
 
 <script>
-  let scannedLink = null;
+function onScanSuccess(decodedText) {
+    alert(decodedText);
+}
 
-  function onScanSuccess(decodedText, decodedResult) {
-    scannedLink = decodedText;
-    document.getElementById("playButton").style.display = "inline-block";
-  }
-
-  const scanner = new Html5QrcodeScanner(
+const scanner = new Html5QrcodeScanner(
     "reader",
     { fps: 10, qrbox: 250 }
-  );
+);
 
-  scanner.render(onScanSuccess);
-
-  document.getElementById("playButton").addEventListener("click", function() {
-    if (scannedLink) {
-      window.location.href = scannedLink;
-    }
-  });
+scanner.render(onScanSuccess);
 </script>
 
 </body>
