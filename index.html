@@ -1,27 +1,112 @@
 <!DOCTYPE html>
+
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎵 Linnéa's Hitster Disco 🎵</title>
+
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+<style>
+body {
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+}
+
+h1 {
+    color: #ff4fd8;
+    text-shadow: 0 0 10px #ff4fd8;
+}
+
+#personalImage {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px #00ffff;
+}
+
+#reader {
+    width: 320px;
+    margin: 20px auto;
+    border: 3px solid #ff4fd8;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+#playButton {
+    display: none;
+    margin-top: 20px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 30px;
+    background: #ff4fd8;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+</style>
+
 </head>
 
 <body>
 
-<h1>QR Test</h1>
+<!-- Replace with your actual filename -->
 
-<div id="reader" style="width:300px"></div>
+<img id="personalImage" src="linnea.jpg" alt="Hitster">
+
+<h1>🎵 HITSTER DISCO 🎵</h1>
+
+<div id="reader"></div>
+
+<button id="playButton">▶ Play Song</button>
 
 <script>
-function onScanSuccess(decodedText) {
-    alert(decodedText);
-}
 
-const scanner = new Html5QrcodeScanner(
-    "reader",
-    { fps: 10, qrbox: 250 }
-);
+let scannedLink = null;
 
-scanner.render(onScanSuccess);
+const html5QrCode = new Html5Qrcode("reader");
+
+Html5Qrcode.getCameras()
+.then(devices => {
+
+    if (devices.length) {
+
+        html5QrCode.start(
+            { facingMode: "environment" },
+            {
+                fps: 10,
+                qrbox: 250
+            },
+            (decodedText) => {
+
+                scannedLink = decodedText;
+
+                document.getElementById("playButton").style.display = "inline-block";
+
+                html5QrCode.stop();
+            }
+        );
+    }
+})
+.catch(err => {
+    console.error(err);
+    alert("Camera error: " + err);
+});
+
+document.getElementById("playButton").addEventListener("click", () => {
+
+    if (scannedLink) {
+        window.location.href = scannedLink;
+    }
+
+});
+
 </script>
 
 </body>
